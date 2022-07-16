@@ -95,10 +95,13 @@ public class BouncerController : MonoBehaviour
             gameObject.transform.position = startPos;
             rgbd.velocity = Vector3.zero;
         }
-        else if(colTag == "WeakPoint")
-        {
-            Debug.Log("K");
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "CheckPoint")
+        {
+            startPos = transform.position;
         }
     }
 }
