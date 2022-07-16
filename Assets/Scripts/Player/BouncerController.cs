@@ -5,7 +5,6 @@ using TMPro;
 
 public class BouncerController : MonoBehaviour
 {
-    public int NextJump, NextSpeed;
     public int JumpHeight, MoveSpeed;
     public TextMeshProUGUI Indicator;
     Rigidbody rgbd;
@@ -14,8 +13,10 @@ public class BouncerController : MonoBehaviour
     float speedCap;
     bool grounded;
     bool isSideAttack;
+    Vector3 startPos;
     [SerializeField] RandomStatus randomStatus;
     [SerializeField] GameObject SideAttackCollider;
+    [SerializeField] GameObject PauseMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -24,12 +25,16 @@ public class BouncerController : MonoBehaviour
         JumpHeight = 3;
         MoveSpeed = 3;
         UpdateDebug();
+        startPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetKey(KeyCode.Escape) && PauseMenu.activeSelf == false)
+        {
+            PauseMenu.gameObject.SetActive(true);
+        }
     }
 
     private void FixedUpdate()
@@ -78,15 +83,22 @@ public class BouncerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Ground")
+        string colTag = collision.gameObject.tag;
+        if(colTag == "Ground")
         {
             //Reset y velocity so that the jump impulse is accurate
             rgbd.velocity = new Vector3(rgbd.velocity.x, 0, rgbd.velocity.z);
             Jump();
         }
-        else if(collision.gameObject.tag == "Enemy")
+        else if(colTag == "Enemy" || colTag == "Spike")
         {
-            gameObject.SetActive(false);
+            gameObject.transform.position = startPos;
+            rgbd.velocity = Vector3.zero;
+        }
+        else if(colTag == "WeakPoint")
+        {
+            Debug.Log("K");
+
         }
     }
 }

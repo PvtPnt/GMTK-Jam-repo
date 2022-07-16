@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 1670119233624305795}
   - component: {fileID: 1670119233624305792}
   - component: {fileID: 1670119233624305807}
-  - component: {fileID: 1670119233624305796}
   m_Layer: 0
   m_Name: enemy
-  m_TagString: Untagged
+  m_TagString: WeakPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,8 +46,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.9474127, y: 0.093144536, z: 1}
+  m_Center: {x: -0.0069114566, y: 0.5400494, z: 0}
 --- !u!114 &1670119233624305807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,23 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1
   speedMultiplier: 2
-  m_rigidbody: {fileID: 1670119233624305796}
---- !u!54 &1670119233624305796
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1670119233624305806}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 120
-  m_CollisionDetection: 0
+  m_rigidbody: {fileID: 0}
 --- !u!1 &1670119234025297565
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,9 +133,11 @@ GameObject:
   - component: {fileID: 8551086373037765174}
   - component: {fileID: 8551086373037765172}
   - component: {fileID: 8551086373037765173}
+  - component: {fileID: 103633928657671714}
+  - component: {fileID: 3760423002479856482}
   m_Layer: 0
   m_Name: mesh
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -222,3 +207,32 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8551086373037765175}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &103633928657671714
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551086373037765175}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0315514, y: 1.013834, z: 1}
+  m_Center: {x: 0.00213027, y: 0.006917, z: 0}
+--- !u!54 &3760423002479856482
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551086373037765175}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
