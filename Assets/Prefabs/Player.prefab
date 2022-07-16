@@ -175,8 +175,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8611369857300415830}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.517, z: 0}
-  m_LocalScale: {x: 0.023139136, y: 1.0366215, z: 1.0038}
+  m_LocalPosition: {x: 0, y: -0.555, z: 0}
+  m_LocalScale: {x: 0.103865795, y: 1.010706, z: 1.0038}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8611369858341051123}
@@ -340,9 +340,11 @@ MonoBehaviour:
   JumpHeight: 0
   MoveSpeed: 0
   Indicator: {fileID: 0}
-  isSideAttack: 0
-  SideAttackCollider: {fileID: 417079752681493165}
+  speedMultiplier: 20
+  heightMultiplier: 5
   randomStatus: {fileID: 3442666626805096730}
+  SideAttackCollider: {fileID: 417079752681493165}
+  PauseMenu: {fileID: 0}
 --- !u!114 &3442666626805096730
 MonoBehaviour:
   m_ObjectHideFlags: 0
