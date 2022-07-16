@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Ground
   - WeakPoint
+  - Platform
+  - PlatformTarget
   layers:
   - Default
   - TransparentFX
