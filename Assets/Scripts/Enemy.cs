@@ -24,24 +24,6 @@ public class Enemy : MonoBehaviour
         m_rigidbody.velocity = new Vector3(currentSpeed, m_rigidbody.velocity.y, 0);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        // check if player comes from above
-        if(collision.gameObject.tag == "Player")
-        {
-            Vector3 dist = (collision.transform.position - transform.position).normalized;
-            if(Mathf.Abs(dist.x) > Mathf.Abs(dist.y))
-            {
-                // collide from side, player dies
-            }
-            else if(Mathf.Abs(dist.x) < Mathf.Abs(dist.y))
-            {
-                // player squishes enemy
-                Destroy(gameObject);
-            }
-        }
-    }
-
     private void CalculateSpeed()
     {
         currentSpeed = moveSpeed * speedMultiplier * (faceRight ? 1 : -1);

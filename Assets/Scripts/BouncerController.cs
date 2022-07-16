@@ -5,77 +5,73 @@ using TMPro;
 
 public class BouncerController : MonoBehaviour
 {
-    public int currentJump, currentSpeed;
     public int JumpHeight, MoveSpeed;
-    public float speedCap;
-    float moveDirection;
     public TextMeshProUGUI Indicator;
     Rigidbody rgbd;
+    int speedMultiplier;
     bool grounded;
+    bool isSideAttack;
+    [SerializeField] RandomStatus randomStatus;
+    [SerializeField] GameObject SideAttackCollider;
 
     // Start is called before the first frame update
     void Start()
     {
         rgbd = GetComponent<Rigidbody>();
-
-        currentJump = Random.Range(1, 6);
-        currentSpeed = 6 - JumpHeight;
-
         JumpHeight = Random.Range(1, 6);
         MoveSpeed = 6 - JumpHeight;
+        speedMultiplier = 5;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Indicator.text = "Jump Height: " + currentJump + "\nMove Speed: " + currentSpeed;
-
-    }
-
-    private void FixedUpdate()
-    {
+        Indicator.text = "Jump Height: " + JumpHeight + "\nMoveSpeed: " + MoveSpeed;
         Movement();
+        //Jump();
 
-        if (rgbd.velocity.y == 0.00f)
-        {
-            Jump();
-        }
+        //if (rgbd.velocity.y == 0.00f)
+        //{
+        //    Jump();
+        //}
+
     }
 
     void Movement()
     {
         if (Input.GetKey(KeyCode.A))
         {
-            rgbd.AddForce(Vector3.left * currentSpeed * 20, ForceMode.Force);
+            rgbd.AddForce(Vector3.left * MoveSpeed * speedMultiplier, ForceMode.Force);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            rgbd.AddForce(Vector3.right * currentSpeed * 20, ForceMode.Force);
+            rgbd.AddForce(Vector3.right * MoveSpeed * speedMultiplier, ForceMode.Force);
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            rgbd.AddForce(Vector3.down * MoveSpeed * 15, ForceMode.Force);
-        }
-
-        //Cap max speed
-        speedCap = currentSpeed * 10;
-        if (Mathf.Abs(rgbd.velocity.x) > speedCap)
-        {
-            Vector3 cappedX_velocity = Vector3.ClampMagnitude(rgbd.velocity, speedCap);
-            rgbd.velocity = new Vector3(cappedX_velocity.x, rgbd.velocity.y, rgbd.velocity.z);
+            rgbd.AddForce(Vector3.down * MoveSpeed * speedMultiplier, ForceMode.Force);
         }
     }
 
     void Jump()
     {
-        currentJump = JumpHeight;
-        currentSpeed = MoveSpeed;
-
-        rgbd.AddForce(Vector3.up * JumpHeight * 5f, ForceMode.Impulse);
-
+        float JumpForce = Mathf.Clamp(JumpHeight, 1f, 6f);
+        rgbd.AddForce(Vector3.up * JumpForce * 7f, ForceMode.Impulse);
         JumpHeight = Random.Range(1, 6);
         MoveSpeed = 6 - JumpHeight;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Ground")
+        {
+            Jump();
+        }
+        else if(collision.gameObject.tag == "Enemy")
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
