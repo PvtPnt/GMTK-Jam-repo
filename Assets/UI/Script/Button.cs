@@ -26,4 +26,19 @@ public class Button : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void ToggleActived(GameObject gameObject)
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
+    }
+
+    public void SetActiveStateT(GameObject gameObject)
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void SetActiveStateF(GameObject gameObject)
+    {
+        gameObject.SetActive(false);
+    }
 }

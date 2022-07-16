@@ -9,6 +9,7 @@ TagManager:
   - WeakPoint
   - Platform
   - PlatformTarget
+  - Spike
   layers:
   - Default
   - TransparentFX
