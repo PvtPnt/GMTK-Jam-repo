@@ -10,6 +10,7 @@ TagManager:
   - Platform
   - PlatformTarget
   - Spike
+  - CheckPoint
   layers:
   - Default
   - TransparentFX
