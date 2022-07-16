@@ -8,7 +8,7 @@ public class EnemyPlatformDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.tag == "Platform") {
+        if(other.gameObject.tag == "Ground") {
             enemy.Turn();
         }
     }
