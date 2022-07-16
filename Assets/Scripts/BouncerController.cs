@@ -5,6 +5,7 @@ using TMPro;
 
 public class BouncerController : MonoBehaviour
 {
+    public int NextJump, NextSpeed;
     public int JumpHeight, MoveSpeed;
     public TextMeshProUGUI Indicator;
     Rigidbody rgbd;
@@ -20,22 +21,20 @@ public class BouncerController : MonoBehaviour
     void Start()
     {
         rgbd = GetComponent<Rigidbody>();
-        JumpHeight = Random.Range(1, 6);
-        MoveSpeed = 6 - JumpHeight;
+        JumpHeight = 3;
+        MoveSpeed = 3;
+        UpdateDebug();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Indicator.text = "Jump Height: " + JumpHeight + "\nMoveSpeed: " + MoveSpeed;
+
+    }
+
+    private void FixedUpdate()
+    {
         Movement();
-        //Jump();
-
-        //if (rgbd.velocity.y == 0.00f)
-        //{
-        //    Jump();
-        //}
-
     }
 
     void Movement()
@@ -66,15 +65,23 @@ public class BouncerController : MonoBehaviour
 
     void Jump()
     {
-        rgbd.AddForce(Vector3.up * JumpHeight * 5f, ForceMode.Impulse);
         JumpHeight = Random.Range(1, 6);
         MoveSpeed = 6 - JumpHeight;
+        UpdateDebug();
+        rgbd.AddForce(Vector3.up * JumpHeight * heightMultiplier, ForceMode.Impulse);
+    }
+
+    void UpdateDebug()
+    {
+        Indicator.text = "Jump: " + JumpHeight + "\nSpeed: " + MoveSpeed;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Ground")
         {
+            //Reset y velocity so that the jump impulse is accurate
+            rgbd.velocity = new Vector3(rgbd.velocity.x, 0, rgbd.velocity.z);
             Jump();
         }
         else if(collision.gameObject.tag == "Enemy")
