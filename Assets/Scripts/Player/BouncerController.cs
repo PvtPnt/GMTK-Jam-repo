@@ -10,6 +10,7 @@ public class BouncerController : MonoBehaviour
     Rigidbody rgbd;
     public int speedMultiplier = 20;
     public int heightMultiplier = 5;
+    public float fallMultiplier = 2.5f;
     float speedCap;
     bool grounded;
     bool isSideAttack;
@@ -40,6 +41,7 @@ public class BouncerController : MonoBehaviour
     private void FixedUpdate()
     {
         Movement();
+        FallUpdate();
     }
 
     void Movement()
@@ -65,6 +67,14 @@ public class BouncerController : MonoBehaviour
         {
             Vector3 cappedX_velocity = Vector3.ClampMagnitude(rgbd.velocity, speedCap);
             rgbd.velocity = new Vector3(cappedX_velocity.x, rgbd.velocity.y, rgbd.velocity.z);
+        }
+    }
+
+    void FallUpdate()
+    {
+        if(rgbd.velocity.y < 0)
+        {
+            rgbd.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
     }
 
