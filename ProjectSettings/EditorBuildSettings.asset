@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main Menu.unity
-    guid: a8d189364dd9cf4468d90b0dd546f36a
+    path: Assets/Scenes/MainMenu.unity
+    guid: 8b04b84623f98ff4a8521b11e35baab9
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/BouncingDice.unity
+    guid: 7a9d52be2dde0d742a1b390f3a2c236a
   m_configObjects: {}
