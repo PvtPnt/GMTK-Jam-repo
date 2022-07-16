@@ -8,7 +8,9 @@ public class BouncerController : MonoBehaviour
     public int JumpHeight, MoveSpeed;
     public TextMeshProUGUI Indicator;
     Rigidbody rgbd;
-    int speedMultiplier;
+    public int speedMultiplier = 20;
+    public int heightMultiplier = 5;
+    float speedCap;
     bool grounded;
     bool isSideAttack;
     [SerializeField] RandomStatus randomStatus;
@@ -20,7 +22,6 @@ public class BouncerController : MonoBehaviour
         rgbd = GetComponent<Rigidbody>();
         JumpHeight = Random.Range(1, 6);
         MoveSpeed = 6 - JumpHeight;
-        speedMultiplier = 5;
     }
 
     // Update is called once per frame
@@ -53,12 +54,19 @@ public class BouncerController : MonoBehaviour
         {
             rgbd.AddForce(Vector3.down * MoveSpeed * speedMultiplier, ForceMode.Force);
         }
+
+        //Cap max speed
+        speedCap = MoveSpeed * 10;
+        if (Mathf.Abs(rgbd.velocity.x) > speedCap)
+        {
+            Vector3 cappedX_velocity = Vector3.ClampMagnitude(rgbd.velocity, speedCap);
+            rgbd.velocity = new Vector3(cappedX_velocity.x, rgbd.velocity.y, rgbd.velocity.z);
+        }
     }
 
     void Jump()
     {
-        float JumpForce = Mathf.Clamp(JumpHeight, 1f, 6f);
-        rgbd.AddForce(Vector3.up * JumpForce * 7f, ForceMode.Impulse);
+        rgbd.AddForce(Vector3.up * JumpHeight * 5f, ForceMode.Impulse);
         JumpHeight = Random.Range(1, 6);
         MoveSpeed = 6 - JumpHeight;
     }
