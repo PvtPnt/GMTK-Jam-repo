@@ -34,15 +34,19 @@ public class BouncerController : MonoBehaviour
 
     void Movement()
     {
-        float MoveForce = Mathf.Clamp(MoveSpeed, 1f, 3f);
         if (Input.GetKey(KeyCode.A))
         {
-            rgbd.AddForce(Vector3.left * MoveForce , ForceMode.VelocityChange);
+            rgbd.AddForce(Vector3.left * MoveSpeed * 10, ForceMode.Force);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            rgbd.AddForce(Vector3.right * MoveForce, ForceMode.VelocityChange);
+            rgbd.AddForce(Vector3.right * MoveSpeed * 10, ForceMode.Force);
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            rgbd.AddForce(Vector3.down * MoveSpeed * 10, ForceMode.Force);
         }
     }
 
