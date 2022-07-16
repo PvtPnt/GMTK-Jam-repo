@@ -18,8 +18,7 @@ public class EnemyDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("K");
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "WeakPoint")
         {
             other.gameObject.active = false;
         }

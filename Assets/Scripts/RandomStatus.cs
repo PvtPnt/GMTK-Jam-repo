@@ -8,6 +8,7 @@ public class RandomStatus : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Statuses = new List<string>();
         Statuses.Add("SideAttack");
     }
 
