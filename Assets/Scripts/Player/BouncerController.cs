@@ -5,6 +5,7 @@ using TMPro;
 
 public class BouncerController : MonoBehaviour
 {
+    [SerializeField] Animator JumpDice, SpeedDice;
     [SerializeField] int JumpHeight, MoveSpeed;
     public TextMeshProUGUI Indicator;
     Rigidbody rgbd;
@@ -29,7 +30,6 @@ public class BouncerController : MonoBehaviour
         rgbd = GetComponent<Rigidbody>();
         JumpHeight = 3;
         MoveSpeed = 3;
-        UpdateDebug();
         startPos = transform.position;
         m_ori = GetComponent<Renderer>().material;
         isReverseControl = 0;
@@ -132,13 +132,19 @@ public class BouncerController : MonoBehaviour
     {
         JumpHeight = Random.Range(1, 6);
         MoveSpeed = 6 - JumpHeight;
-        UpdateDebug();
+        UpdateDice();
         rgbd.AddForce(Vector3.up * JumpHeight * heightMultiplier, ForceMode.Impulse);
     }
 
-    void UpdateDebug()
+    void UpdateDice()
     {
-        Indicator.text = "Jump: " + JumpHeight + "\nSpeed: " + MoveSpeed;
+        JumpDice.GetComponent<DiceRoll>().TargetFace = JumpHeight;
+        JumpDice.SetTrigger("Roll");
+        JumpDice.SetInteger("DiceFace", JumpHeight);
+
+        SpeedDice.GetComponent<DiceRoll>().TargetFace = MoveSpeed;
+        SpeedDice.SetTrigger("Roll");
+        SpeedDice.SetInteger("DiceFace", MoveSpeed);
     }
 
     private void OnCollisionEnter(Collision collision)
