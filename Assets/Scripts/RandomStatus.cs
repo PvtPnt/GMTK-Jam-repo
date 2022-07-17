@@ -9,7 +9,7 @@ public class RandomStatus : MonoBehaviour
     string currStatus;
     [SerializeField] BouncerController player;
     [SerializeField] FallingDarts dartsScript;
-    [SerializeField] Image AdPanel;
+    [SerializeField] GameObject AdPanel;
     [SerializeField] float AdTime = 10;
     float adCount = 0;
     // Start is called before the first frame update
@@ -37,7 +37,7 @@ public class RandomStatus : MonoBehaviour
 
     public void GetRandomStatus()
     {
-        int chance = Random.Range(1, 4);
+        int chance = Random.Range(1, 5);
         switch(chance)
         {
             case 1:
@@ -54,6 +54,11 @@ public class RandomStatus : MonoBehaviour
             case 3:
                 {
                     dartsScript.EnableFallingDarts();
+                    break;
+                }
+            case 4:
+                {
+                    EnemyCenter.Instance.EnableShooting();
                     break;
                 }
             default:

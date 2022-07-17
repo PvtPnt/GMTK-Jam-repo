@@ -43,14 +43,12 @@ public class BouncerController : MonoBehaviour
     {
         if(isReverseControl > 0)
         {
-            Debug.Log(isReverseControl);
             isReverseControl -= Time.deltaTime;
             if(isReverseControl <= 0)
                 GetComponent<Renderer>().material = m_ori;
         }
         if (isSideAttack > 0)
         {
-            Debug.Log(isSideAttack);
             isSideAttack -= Time.deltaTime;
             if (isSideAttack <= 0)
                 GetComponent<Renderer>().material = m_ori;
