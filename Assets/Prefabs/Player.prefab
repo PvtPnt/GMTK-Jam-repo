@@ -128,10 +128,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa802378a44376d48965083c4a51b7f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpHeight: 0
-  MoveSpeed: 0
+  JumpDice: {fileID: 0}
+  SpeedDice: {fileID: 0}
+  JumpHeight: 3
+  MoveSpeed: 3
   Indicator: {fileID: 0}
-  speedMultiplier: 20
+  speedMultiplier: 30
   heightMultiplier: 5
   fallMultiplier: 2.5
   randomStatus: {fileID: 3442666626805096730}
@@ -152,3 +154,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  AdPanel: {fileID: 0}
+  AdTime: 10
