@@ -50,6 +50,7 @@ public class BouncerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerAudio = GetComponent<AudioSource>();
         playerAnimator = GetComponent<Animator>();
         rgbd = GetComponent<Rigidbody>();
         JumpHeight = 3;
@@ -200,8 +201,23 @@ public class BouncerController : MonoBehaviour
         JumpHeight = Random.Range(1, 6);
         MoveSpeed = 6 - JumpHeight;
         UpdateDice();
+
         playerAnimator.SetTrigger("Jump");
+        PlaySound(sfx_Jump);
+
         rgbd.AddForce(Vector3.up * JumpHeight * heightMultiplier, ForceMode.Impulse);
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        PlayerAudio.clip = clip;
+        PlayerAudio.Play();
+    }
+
+    public void SecondaryPlaySound(AudioClip clip)
+    {
+        SecondaryPlayerAudio.clip = clip;
+        SecondaryPlayerAudio.Play();
     }
 
     void UpdateDice()
@@ -230,10 +246,12 @@ public class BouncerController : MonoBehaviour
         }
         else if (colTag == "Spike" && isGodMode <= 0)
         {
+            SecondaryPlaySound(sfx_spike);
             Respawn();
         }
         else if (colTag == "Bullet" && isGodMode <= 0)
         {
+            SecondaryPlaySound(sfx_spike);
             Destroy(collision.gameObject);
             Respawn();
         }
@@ -254,6 +272,7 @@ public class BouncerController : MonoBehaviour
 
     private void Respawn()
     {
+        PlaySound(sfx_Death);
         gameObject.transform.position = startPos;
         rgbd.velocity = Vector3.zero;
         EnemyCenter.Instance.RespawnEnemies();
