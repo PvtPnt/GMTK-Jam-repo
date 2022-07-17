@@ -184,11 +184,11 @@ public class BouncerController : MonoBehaviour
         {
             resolveEnemyCollision(collision);
         }
-        else if (colTag == "Spike" && isGodMode < 0)
+        else if (colTag == "Spike" && isGodMode <= 0)
         {
             Respawn();
         }
-        else if(colTag == "Bullet" && isGodMode < 0)
+        else if(colTag == "Bullet" && isGodMode <= 0)
         {
             Destroy(collision.gameObject);
             Respawn();
@@ -226,7 +226,7 @@ public class BouncerController : MonoBehaviour
                 collision.gameObject.SetActive(false);
                 RandomStatus.SharedInstance.GetRandomStatus();
             }
-            else if(isGodMode < 0)
+            else if(isGodMode <= 0)
             {
                 Respawn();
             }

@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8611369858341051123
 Transform:
   m_ObjectHideFlags: 0
@@ -138,9 +138,16 @@ MonoBehaviour:
   fallMultiplier: 2.5
   randomStatus: {fileID: 3442666626805096730}
   SideAttackCollider: {fileID: 0}
+  invisibleCd: 5
+  confusedCd: 5
+  godModeCd: 5
   PauseMenu: {fileID: 0}
   m_invisible: {fileID: 2100000, guid: a1af9e565f0722443bb432e56e7db42b, type: 2}
+  m_berserk: {fileID: 0}
   m_confuse: {fileID: 2100000, guid: 8291a4967cf9b514e810bdba5844e207, type: 2}
+  UI_invisible: {fileID: 0}
+  UI_berserk: {fileID: 0}
+  UI_confuse: {fileID: 0}
 --- !u!114 &3442666626805096730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,5 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  dartsScript: {fileID: 0}
   AdPanel: {fileID: 0}
   AdTime: 10
+  UI_Ad: {fileID: 0}
