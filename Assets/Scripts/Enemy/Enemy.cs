@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
     private float currenShootCD;
     private float currenShootTimer;
 
+    private Vector3 startPos;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -42,6 +44,7 @@ public class Enemy : MonoBehaviour
     }
     void Start()
     {
+        startPos = transform.position;
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -115,5 +118,12 @@ public class Enemy : MonoBehaviour
 
         // stop shooting
         if (currenShootTimer <= 0) enableShooting = false;
+    }
+
+    public void Respawn()
+    {
+        transform.position = startPos;
+        gameObject.SetActive(true);
+        m_rigidbody.velocity = Vector3.zero;
     }
 }

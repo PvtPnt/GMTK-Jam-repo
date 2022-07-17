@@ -27,4 +27,11 @@ public class EnemyCenter : MonoBehaviour
         }
     }
 
+    public void RespawnEnemies()
+    {
+        foreach (Transform child in transform)
+        {
+            child.GetComponent<Enemy>().Respawn();
+        }
+    }
 }
