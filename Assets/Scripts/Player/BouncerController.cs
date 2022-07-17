@@ -237,6 +237,7 @@ public class BouncerController : MonoBehaviour
         if (colTag == "Ground")
         {
             //Reset y velocity so that the jump impulse is accurate
+            playerAnimator.SetTrigger("Land");
             rgbd.velocity = new Vector3(rgbd.velocity.x, 0, rgbd.velocity.z);
             Jump();
         }
