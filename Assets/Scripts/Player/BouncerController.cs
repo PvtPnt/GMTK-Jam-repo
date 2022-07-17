@@ -7,29 +7,38 @@ public class BouncerController : MonoBehaviour
 {
     [SerializeField] Animator JumpDice, SpeedDice;
     [SerializeField] int JumpHeight, MoveSpeed;
-    public TextMeshProUGUI Indicator;
     Rigidbody rgbd;
     [SerializeField] int speedMultiplier = 20;
     [SerializeField] int heightMultiplier = 5;
     [SerializeField] float fallMultiplier = 2.5f;
-    float speedCap;
     bool grounded;
-    float isSideAttack;
-    float isReverseControl;
-    float isGodMode;
+    float speedCap;
+
+    //Status timer
+    float isSideAttack, isReverseControl, isGodMode, isAds, isDarts;
+
+    //Status Max Timer
+    [Header("Max Status Duration")]
+    [SerializeField] float invisibleCd = 5;
+    [SerializeField] float dartCd = 6, adsCd = 10, godModeCd = 5, confusedCd = 5;
+
+    //Materials
+    [Header("Materials")]
+    [SerializeField] Material m_invisible;
+    [SerializeField] Material m_berserk, m_confuse;
+
     Vector3 startPos;
     [SerializeField] RandomStatus randomStatus;
     [SerializeField] GameObject SideAttackCollider;
-    [SerializeField] float invisibleCd = 5;
-    [SerializeField] float confusedCd = 5;
-    [SerializeField] float godModeCd = 5;
+
     [SerializeField] GameObject PauseMenu;
-    [SerializeField] Material m_invisible;
-    [SerializeField] Material m_berserk;
-    [SerializeField] Material m_confuse;
+
+    [Header("UI")]
     [SerializeField] GameObject UI_invisible;
     [SerializeField] GameObject UI_berserk;
     [SerializeField] GameObject UI_confuse;
+    [SerializeField] GameObject UI_ads;
+    [SerializeField] GameObject UI_darts;
     private Material m_ori;
 
     // Start is called before the first frame update
@@ -43,20 +52,26 @@ public class BouncerController : MonoBehaviour
         isReverseControl = 0;
         isSideAttack = 0;
         isGodMode = 0;
+        isAds = 0;
+        isDarts = 0;
+
+        //Debug statuses
+        //SetEverythingOff();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isReverseControl > 0)
+        if (isReverseControl > 0)
         {
             isReverseControl -= Time.deltaTime;
-            if(isReverseControl <= 0)
+            if (isReverseControl <= 0)
             {
                 GetComponent<Renderer>().material = m_ori;
                 UI_confuse.SetActive(false);
             }
         }
+
         if (isSideAttack > 0)
         {
             isSideAttack -= Time.deltaTime;
@@ -66,6 +81,7 @@ public class BouncerController : MonoBehaviour
                 UI_berserk.SetActive(false);
             }
         }
+
         if (isGodMode > 0)
         {
             isGodMode -= Time.deltaTime;
@@ -73,6 +89,25 @@ public class BouncerController : MonoBehaviour
             {
                 GetComponent<Renderer>().material = m_ori;
                 UI_invisible.SetActive(false);
+            }
+        }
+
+        if (isAds > 0)
+        {
+            isAds -= Time.deltaTime;
+            if (isAds <= 0)
+            {
+                GetComponent<Renderer>().material = m_ori;
+                UI_ads.SetActive(false);
+            }
+        }
+
+        if (isDarts > 0)
+        {
+            isDarts -= Time.deltaTime;
+            if (isDarts <= 0)
+            {
+                UI_darts.SetActive(false);
             }
         }
 
@@ -99,7 +134,7 @@ public class BouncerController : MonoBehaviour
 
     void Movement()
     {
-        if(isReverseControl > 0)
+        if (isReverseControl > 0)
         {
             if (Input.GetKey(KeyCode.D))
             {
@@ -146,7 +181,7 @@ public class BouncerController : MonoBehaviour
 
     void FallUpdate()
     {
-        if(rgbd.velocity.y < 0)
+        if (rgbd.velocity.y < 0)
         {
             rgbd.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
@@ -188,7 +223,7 @@ public class BouncerController : MonoBehaviour
         {
             Respawn();
         }
-        else if(colTag == "Bullet" && isGodMode < 0)
+        else if (colTag == "Bullet" && isGodMode < 0)
         {
             Destroy(collision.gameObject);
             Respawn();
@@ -201,7 +236,7 @@ public class BouncerController : MonoBehaviour
         {
             startPos = transform.position;
         }
-        else if(other.gameObject.tag == "Dart")
+        else if (other.gameObject.tag == "Dart")
         {
             Destroy(other.gameObject);
             Respawn();
@@ -218,7 +253,7 @@ public class BouncerController : MonoBehaviour
     private void resolveEnemyCollision(Collision collision)
     {
         Vector3 dist = (transform.position - collision.transform.position).normalized;
-        if(Mathf.Abs(dist.x) > Mathf.Abs(dist.y))
+        if (Mathf.Abs(dist.x) > Mathf.Abs(dist.y))
         {
             // side collision
             if (isSideAttack > 0)
@@ -226,12 +261,12 @@ public class BouncerController : MonoBehaviour
                 collision.gameObject.SetActive(false);
                 RandomStatus.SharedInstance.GetRandomStatus();
             }
-            else if(isGodMode < 0)
+            else if (isGodMode < 0)
             {
                 Respawn();
             }
         }
-        else if(Mathf.Abs(dist.x) < Mathf.Abs(dist.y))
+        else if (Mathf.Abs(dist.x) < Mathf.Abs(dist.y))
         {
             // top collision
             collision.gameObject.SetActive(false);
@@ -244,7 +279,7 @@ public class BouncerController : MonoBehaviour
     {
         isSideAttack = invisibleCd;
         GetComponent<Renderer>().material = m_berserk;
-        UI_invisible.SetActive(true);
+        UI_berserk.SetActive(true);
     }
 
     public void SetReverseControl()
@@ -259,5 +294,26 @@ public class BouncerController : MonoBehaviour
         isGodMode = godModeCd;
         GetComponent<Renderer>().material = m_invisible;
         UI_invisible.SetActive(true);
+    }
+
+    public void SetAds()
+    {
+        isAds = adsCd;
+        UI_ads.SetActive(true);
+    }
+
+    public void SetDarts()
+    {
+        isDarts = dartCd;
+        UI_darts.SetActive(true);
+    }
+
+    void SetEverythingOff()
+    {
+        SetSideAttack();
+        SetReverseControl();
+        SetGodMode();
+        SetDarts();
+        SetAds();
     }
 }

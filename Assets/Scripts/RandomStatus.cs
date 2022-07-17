@@ -9,34 +9,11 @@ public class RandomStatus : MonoBehaviour
     string currStatus;
     [SerializeField] BouncerController player;
     [SerializeField] FallingDarts dartsScript;
-    [SerializeField] GameObject AdPanel;
-    [SerializeField] float AdTime = 10;
-    float adCount = 0;
-    [SerializeField] GameObject UI_Ad;
     // Start is called before the first frame update
 
     void Awake()
     {
         SharedInstance = this;
-    }
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (adCount > 0)
-        {
-            adCount -= Time.deltaTime;
-            if (adCount <= 0)
-            {
-                UI_Ad.SetActive(false);
-                AdPanel.gameObject.SetActive(false);
-            }
-        }
     }
 
     public void GetRandomStatus()
@@ -57,6 +34,7 @@ public class RandomStatus : MonoBehaviour
                 }
             case 3:
                 {
+                    player.SetDarts();
                     dartsScript.EnableFallingDarts();
                     break;
                 }
@@ -67,9 +45,7 @@ public class RandomStatus : MonoBehaviour
                 }
             default:
                 {
-                    AdPanel.gameObject.SetActive(true);
-                    adCount = AdTime;
-                    UI_Ad.SetActive(true);
+                    player.SetAds();
                     break;
                 }
         }
