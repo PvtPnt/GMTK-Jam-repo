@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float speedMultiplier = 2;
     [SerializeField] private Rigidbody m_rigidbody;
     [SerializeField] private int randomTime = 1;
+    [SerializeField] private int shootingForce = 40;
 
     [SerializeField] private GameObject bullet;
 
@@ -21,24 +22,27 @@ public class Enemy : MonoBehaviour
 
     // shooting
     [SerializeField] private bool isShooterEnemy;
-    [SerializeField] private float shootCD;
+    [SerializeField] private float shootCD = 2;
     [Tooltip("set how long will shooting last")]
-    [SerializeField] private float shootTimer;
+    [SerializeField] private float shootTimer = 5;
     private bool enableShooting;
     private float currenShootCD;
     private float currenShootTimer;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         faceRight = true;
         CalculateSpeed();
         currentCD = randomTime;
         moveSpeed = Random.Range(minSpeed, maxSpeed);
         enableShooting = isShooterEnemy;
-        player = GameObject.FindGameObjectWithTag("Player");
         currenShootCD = shootCD;
         currenShootTimer = shootTimer;
+    }
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -88,12 +92,13 @@ public class Enemy : MonoBehaviour
 
     private void UpdateShooting()
     {
-        if (!enableShooting) return;
+        if (!enableShooting && !isShooterEnemy) return;
 
-        if (!isShooterEnemy) currenShootTimer -= Time.deltaTime;
 
+        currenShootTimer -= Time.deltaTime;
         currenShootCD -= Time.deltaTime;
-        if(currenShootCD <= 0)
+
+        if (currenShootCD <= 0)
         {
             currenShootCD = shootCD;
             // fire projectile
@@ -105,7 +110,7 @@ public class Enemy : MonoBehaviour
 
             new_bullet.transform.localRotation *= Quaternion.FromToRotation(current_dir, dir);
 
-            new_bullet.GetComponent<Rigidbody>().velocity = dir * 40;
+            new_bullet.GetComponent<Rigidbody>().velocity = dir * shootingForce;
         }
 
         // stop shooting
