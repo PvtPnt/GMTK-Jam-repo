@@ -161,7 +161,7 @@ public class BouncerController : MonoBehaviour
         }
         else if(colTag == "Bullet")
         {
-            collision.gameObject.SetActive(false);
+            Destroy(collision.gameObject);
             gameObject.transform.position = startPos;
             rgbd.velocity = Vector3.zero;
         }
@@ -172,6 +172,12 @@ public class BouncerController : MonoBehaviour
         if (other.gameObject.tag == "CheckPoint")
         {
             startPos = transform.position;
+        }
+        else if(other.gameObject.tag == "Dart")
+        {
+            Destroy(other.gameObject);
+            gameObject.transform.position = startPos;
+            rgbd.velocity = Vector3.zero;
         }
     }
 

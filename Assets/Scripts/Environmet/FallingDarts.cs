@@ -26,7 +26,6 @@ public class FallingDarts : MonoBehaviour
     {
         UpdateFalling();
     }
-
     public void EnableFallingDarts()
     {
         enableFallingDarts = true;
