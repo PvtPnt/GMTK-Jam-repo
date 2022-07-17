@@ -5,6 +5,7 @@ using TMPro;
 
 public class BouncerController : MonoBehaviour
 {
+    [SerializeField] Animator playerAnimator;
     [SerializeField] Animator JumpDice, SpeedDice;
     [SerializeField] int JumpHeight, MoveSpeed;
     Rigidbody rgbd;
@@ -44,6 +45,7 @@ public class BouncerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerAnimator = GetComponent<Animator>();
         rgbd = GetComponent<Rigidbody>();
         JumpHeight = 3;
         MoveSpeed = 3;
@@ -183,6 +185,7 @@ public class BouncerController : MonoBehaviour
     {
         if (rgbd.velocity.y < 0)
         {
+            playerAnimator.SetTrigger("Fall");
             rgbd.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
     }
@@ -192,6 +195,7 @@ public class BouncerController : MonoBehaviour
         JumpHeight = Random.Range(1, 6);
         MoveSpeed = 6 - JumpHeight;
         UpdateDice();
+        playerAnimator.SetTrigger("Jump");
         rgbd.AddForce(Vector3.up * JumpHeight * heightMultiplier, ForceMode.Impulse);
     }
 
