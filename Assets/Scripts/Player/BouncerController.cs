@@ -162,14 +162,12 @@ public class BouncerController : MonoBehaviour
         }
         else if (colTag == "Spike")
         {
-            gameObject.transform.position = startPos;
-            rgbd.velocity = Vector3.zero;
+            Respawn();
         }
         else if(colTag == "Bullet")
         {
             Destroy(collision.gameObject);
-            gameObject.transform.position = startPos;
-            rgbd.velocity = Vector3.zero;
+            Respawn();
         }
     }
 
@@ -182,9 +180,15 @@ public class BouncerController : MonoBehaviour
         else if(other.gameObject.tag == "Dart")
         {
             Destroy(other.gameObject);
-            gameObject.transform.position = startPos;
-            rgbd.velocity = Vector3.zero;
+            Respawn();
         }
+    }
+
+    private void Respawn()
+    {
+        gameObject.transform.position = startPos;
+        rgbd.velocity = Vector3.zero;
+        EnemyCenter.Instance.RespawnEnemies();
     }
 
     private void resolveEnemyCollision(Collision collision)
@@ -200,8 +204,7 @@ public class BouncerController : MonoBehaviour
             }
             else
             {
-                gameObject.transform.position = startPos;
-                rgbd.velocity = Vector3.zero;
+                Respawn();
             }
         }
         else if(Mathf.Abs(dist.x) < Mathf.Abs(dist.y))
