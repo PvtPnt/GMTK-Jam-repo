@@ -119,7 +119,7 @@ public class BouncerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (PauseMenu.activeSelf == false)
             {

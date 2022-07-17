@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 8b04b84623f98ff4a8521b11e35baab9
   - enabled: 1
-    path: Assets/Scenes/BouncingDice.unity
-    guid: 7a9d52be2dde0d742a1b390f3a2c236a
+    path: Assets/Scenes/ActualLevel.unity
+    guid: 0836e35b5e367ed40aedca46f1c8ff8f
   m_configObjects: {}

@@ -19,6 +19,11 @@ public class SceneLoader : MonoBehaviour
 
     }
 
+    public void NormalTimescale()
+    {
+        Time.timeScale = 1;
+    }
+
     public void LoadLevel(string LevelName)
     {
         Initiate.Fade(LevelName, loadColor, Speed);
