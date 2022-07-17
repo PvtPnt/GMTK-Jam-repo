@@ -21,6 +21,7 @@ public class EnemyDetector : MonoBehaviour
         if (other.gameObject.tag == "WeakPoint")
         {
             other.gameObject.active = false;
+            RandomStatus.SharedInstance.GetRandomStatus();
         }
     }
 }

@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class RandomStatus : MonoBehaviour
 {
+    public static RandomStatus SharedInstance;
+    string currStatus;
+    [SerializeField] BouncerController player;
     List<string> Statuses;
     // Start is called before the first frame update
+
+    void Awake()
+    {
+        SharedInstance = this;
+    }
+
     void Start()
     {
         Statuses = new List<string>();
@@ -18,8 +27,9 @@ public class RandomStatus : MonoBehaviour
         
     }
 
-    public string GetRandomStatus()
+    public void GetRandomStatus()
     {
-        return Statuses[0];
+        currStatus = Statuses[0];
+        player.SetSideAttack(true);
     }
 }
