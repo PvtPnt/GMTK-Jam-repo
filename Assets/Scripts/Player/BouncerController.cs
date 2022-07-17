@@ -19,6 +19,8 @@ public class BouncerController : MonoBehaviour
     Vector3 startPos;
     [SerializeField] RandomStatus randomStatus;
     [SerializeField] GameObject SideAttackCollider;
+    [SerializeField] float invisibleCd = 5;
+    [SerializeField] float confusedCd = 5;
     [SerializeField] GameObject PauseMenu;
     [SerializeField] Material m_invisible;
     [SerializeField] Material m_confuse;
@@ -41,12 +43,14 @@ public class BouncerController : MonoBehaviour
     {
         if(isReverseControl > 0)
         {
+            Debug.Log(isReverseControl);
             isReverseControl -= Time.deltaTime;
             if(isReverseControl <= 0)
                 GetComponent<Renderer>().material = m_ori;
         }
         if (isSideAttack > 0)
         {
+            Debug.Log(isSideAttack);
             isSideAttack -= Time.deltaTime;
             if (isSideAttack <= 0)
                 GetComponent<Renderer>().material = m_ori;
@@ -215,13 +219,13 @@ public class BouncerController : MonoBehaviour
 
     public void SetSideAttack()
     {
-        isSideAttack = 10;
+        isSideAttack = invisibleCd;
         GetComponent<Renderer>().material = m_invisible;
     }
 
     public void SetReverseControl()
     {
-        isReverseControl = 10;
+        isReverseControl = confusedCd;
         GetComponent<Renderer>().material = m_confuse;
     }
 }
