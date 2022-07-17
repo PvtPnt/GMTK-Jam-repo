@@ -15,6 +15,11 @@ public class BouncerController : MonoBehaviour
     bool grounded;
     float speedCap;
 
+    [Header("Audio")]
+    AudioSource PlayerAudio;
+    [SerializeField] AudioSource SecondaryPlayerAudio;
+    [SerializeField] AudioClip sfx_Jump, sfx_Death, sfx_spike;
+
     //Status timer
     float isSideAttack, isReverseControl, isGodMode, isAds, isDarts;
 
