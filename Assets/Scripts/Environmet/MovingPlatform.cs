@@ -20,7 +20,7 @@ public class MovingPlatform : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // Assign target to move to
         if (movetoA)
@@ -33,7 +33,7 @@ public class MovingPlatform : MonoBehaviour
         }
 
         // Moving platform itself
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget, moveSpeed * Time.timeScale);
+        transform.position = Vector3.MoveTowards(transform.position, currentTarget, moveSpeed);
 
         // Reassign target when reachign destination
         if (transform.position == currentTarget)
