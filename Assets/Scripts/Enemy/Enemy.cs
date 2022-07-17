@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    Animator enemyAnimator;
     [SerializeField] private int minSpeed = 1;
     [SerializeField] private int maxSpeed = 10;
     [SerializeField] private float speedMultiplier = 2;
@@ -34,6 +35,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        enemyAnimator = GetComponent<Animator>();
         faceRight = true;
         CalculateSpeed();
         currentCD = randomTime;
@@ -41,6 +43,15 @@ public class Enemy : MonoBehaviour
         enableShooting = isShooterEnemy;
         currenShootCD = shootCD;
         currenShootTimer = shootTimer;
+
+        if(isShooterEnemy)
+        {
+            enemyAnimator.SetBool("Range", true);
+        }
+        else
+        {
+            enemyAnimator.SetBool("Range", false);
+        }
     }
     void Start()
     {
