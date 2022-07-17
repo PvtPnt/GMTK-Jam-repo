@@ -13,12 +13,14 @@ public class BouncerController : MonoBehaviour
     [SerializeField] float fallMultiplier = 2.5f;
     float speedCap;
     bool grounded;
-    bool isSideAttack;
+    float isSideAttack;
+    float isReverseControl;
     Vector3 startPos;
     [SerializeField] RandomStatus randomStatus;
     [SerializeField] GameObject SideAttackCollider;
     [SerializeField] GameObject PauseMenu;
     [SerializeField] Material m_invisible;
+    [SerializeField] Material m_confuse;
     private Material m_ori;
 
     // Start is called before the first frame update
@@ -30,12 +32,27 @@ public class BouncerController : MonoBehaviour
         UpdateDebug();
         startPos = transform.position;
         m_ori = GetComponent<Renderer>().material;
+        isReverseControl = 0;
+        isSideAttack = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.Escape))
+        if(isReverseControl > 0)
+        {
+            isReverseControl -= Time.deltaTime;
+            if(isReverseControl <= 0)
+                GetComponent<Renderer>().material = m_ori;
+        }
+        if (isSideAttack > 0)
+        {
+            isSideAttack -= Time.deltaTime;
+            if (isSideAttack <= 0)
+                GetComponent<Renderer>().material = m_ori;
+        }
+
+        if (Input.GetKey(KeyCode.Escape))
         {
             if (PauseMenu.activeSelf == false)
             {
@@ -58,20 +75,41 @@ public class BouncerController : MonoBehaviour
 
     void Movement()
     {
-        if (Input.GetKey(KeyCode.A))
+        if(isReverseControl > 0)
         {
-            rgbd.AddForce(Vector3.left * MoveSpeed * speedMultiplier, ForceMode.Force);
+            if (Input.GetKey(KeyCode.D))
+            {
+                rgbd.AddForce(Vector3.left * MoveSpeed * speedMultiplier, ForceMode.Force);
+            }
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                rgbd.AddForce(Vector3.right * MoveSpeed * speedMultiplier, ForceMode.Force);
+            }
+
+            if (Input.GetKey(KeyCode.S))
+            {
+                rgbd.AddForce(Vector3.down * MoveSpeed * speedMultiplier, ForceMode.Force);
+            }
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                rgbd.AddForce(Vector3.left * MoveSpeed * speedMultiplier, ForceMode.Force);
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                rgbd.AddForce(Vector3.right * MoveSpeed * speedMultiplier, ForceMode.Force);
+            }
+
+            if (Input.GetKey(KeyCode.S))
+            {
+                rgbd.AddForce(Vector3.down * MoveSpeed * speedMultiplier, ForceMode.Force);
+            }
         }
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            rgbd.AddForce(Vector3.right * MoveSpeed * speedMultiplier, ForceMode.Force);
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            rgbd.AddForce(Vector3.down * MoveSpeed * speedMultiplier, ForceMode.Force);
-        }
 
         //Cap max speed
         speedCap = MoveSpeed * 10;
@@ -123,7 +161,7 @@ public class BouncerController : MonoBehaviour
         }
         else if(colTag == "Bullet")
         {
-            collision.gameObject.SetActive(false);
+            Destroy(collision.gameObject);
             gameObject.transform.position = startPos;
             rgbd.velocity = Vector3.zero;
         }
@@ -135,6 +173,12 @@ public class BouncerController : MonoBehaviour
         {
             startPos = transform.position;
         }
+        else if(other.gameObject.tag == "Dart")
+        {
+            Destroy(other.gameObject);
+            gameObject.transform.position = startPos;
+            rgbd.velocity = Vector3.zero;
+        }
     }
 
     private void resolveEnemyCollision(Collision collision)
@@ -143,7 +187,7 @@ public class BouncerController : MonoBehaviour
         if(Mathf.Abs(dist.x) > Mathf.Abs(dist.y))
         {
             // side collision
-            if (isSideAttack)
+            if (isSideAttack > 0)
             {
                 collision.gameObject.SetActive(false);
                 RandomStatus.SharedInstance.GetRandomStatus();
@@ -163,16 +207,15 @@ public class BouncerController : MonoBehaviour
 
     }
 
-    public void SetSideAttack(bool b)
+    public void SetSideAttack()
     {
-        isSideAttack = b;
-        if (b)
-        {
-            GetComponent<Renderer>().material = m_invisible;
-        }
-        else
-        {
-            GetComponent<Renderer>().material = m_ori;
-        }
+        isSideAttack = 10;
+        GetComponent<Renderer>().material = m_invisible;
+    }
+
+    public void SetReverseControl()
+    {
+        isReverseControl = 10;
+        GetComponent<Renderer>().material = m_confuse;
     }
 }

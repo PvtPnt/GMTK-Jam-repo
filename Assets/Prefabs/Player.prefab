@@ -138,6 +138,7 @@ MonoBehaviour:
   SideAttackCollider: {fileID: 0}
   PauseMenu: {fileID: 0}
   m_invisible: {fileID: 2100000, guid: a1af9e565f0722443bb432e56e7db42b, type: 2}
+  m_confuse: {fileID: 2100000, guid: 8291a4967cf9b514e810bdba5844e207, type: 2}
 --- !u!114 &3442666626805096730
 MonoBehaviour:
   m_ObjectHideFlags: 0

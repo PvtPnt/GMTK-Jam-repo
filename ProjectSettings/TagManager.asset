@@ -12,6 +12,7 @@ TagManager:
   - Spike
   - CheckPoint
   - Bullet
+  - Dart
   layers:
   - Default
   - TransparentFX
