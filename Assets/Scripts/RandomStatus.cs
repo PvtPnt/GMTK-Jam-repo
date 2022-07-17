@@ -19,6 +19,7 @@ public class RandomStatus : MonoBehaviour
     {
         Statuses = new List<string>();
         Statuses.Add("SideAttack");
+        Statuses.Add("ReverseControl");
     }
 
     // Update is called once per frame
@@ -29,7 +30,8 @@ public class RandomStatus : MonoBehaviour
 
     public void GetRandomStatus()
     {
-        currStatus = Statuses[0];
-        player.SetSideAttack(true);
+        currStatus = Statuses[1];
+        
+        //player.SetSideAttack(true);
     }
 }
