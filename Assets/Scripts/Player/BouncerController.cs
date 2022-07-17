@@ -112,6 +112,12 @@ public class BouncerController : MonoBehaviour
             gameObject.transform.position = startPos;
             rgbd.velocity = Vector3.zero;
         }
+        else if(colTag == "Bullet")
+        {
+            collision.gameObject.SetActive(false);
+            gameObject.transform.position = startPos;
+            rgbd.velocity = Vector3.zero;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

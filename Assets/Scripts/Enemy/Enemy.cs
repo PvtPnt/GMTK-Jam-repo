@@ -10,10 +10,19 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Rigidbody m_rigidbody;
     [SerializeField] private int randomTime = 1;
 
+    [SerializeField] private GameObject bullet;
+
+    private GameObject player;
+
     private bool faceRight;
     private float currentSpeed;
     private float currentCD;
     private int moveSpeed;
+
+    // shooting
+    [SerializeField] private float shootCD;
+    private bool enableShooting;
+    private float currenShootCD;
 
     // Start is called before the first frame update
     void Start()
@@ -22,13 +31,16 @@ public class Enemy : MonoBehaviour
         CalculateSpeed();
         currentCD = randomTime;
         moveSpeed = Random.Range(minSpeed, maxSpeed);
+        enableShooting = false;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
         m_rigidbody.velocity = new Vector3(currentSpeed, m_rigidbody.velocity.y, 0);
-        //CountDown();
+        CountDown();
+        UpdateShooting();
     }
 
     private void CalculateSpeed()
@@ -55,6 +67,33 @@ public class Enemy : MonoBehaviour
         {
             currentCD = randomTime;
             moveSpeed = Random.Range(minSpeed, maxSpeed);
+        }
+    }
+
+    public void EnableShooting(bool b)
+    {
+        enableShooting = b;
+        currenShootCD = shootCD;
+    }
+
+    private void UpdateShooting()
+    {
+        if (!enableShooting) return;
+
+        currenShootCD -= Time.deltaTime;
+        if(currenShootCD <= 0)
+        {
+            currenShootCD = shootCD;
+            // fire projectile
+            Vector3 dir = (player.transform.position - transform.position).normalized;
+            Vector3 startPos = transform.position + (dir * (transform.localScale.x + bullet.transform.localScale.y));
+            GameObject new_bullet = Instantiate(bullet, startPos,new Quaternion());
+
+            Vector3 current_dir = transform.up;
+
+            new_bullet.transform.localRotation *= Quaternion.FromToRotation(current_dir, dir);
+
+            new_bullet.GetComponent<Rigidbody>().velocity = dir * 40;
         }
     }
 }
