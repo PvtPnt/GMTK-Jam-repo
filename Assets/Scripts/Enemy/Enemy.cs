@@ -20,11 +20,13 @@ public class Enemy : MonoBehaviour
     private int moveSpeed;
 
     // shooting
+    [SerializeField] private bool isShooterEnemy;
     [SerializeField] private float shootCD;
     [Tooltip("set how long will shooting last")]
     [SerializeField] private float shootTimer;
     private bool enableShooting;
     private float currenShootCD;
+    private float currenShootTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -33,15 +35,20 @@ public class Enemy : MonoBehaviour
         CalculateSpeed();
         currentCD = randomTime;
         moveSpeed = Random.Range(minSpeed, maxSpeed);
-        enableShooting = false;
+        enableShooting = isShooterEnemy;
         player = GameObject.FindGameObjectWithTag("Player");
+        currenShootCD = shootCD;
+        currenShootTimer = shootTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
-        m_rigidbody.velocity = new Vector3(currentSpeed, m_rigidbody.velocity.y, 0);
-        CountDown();
+        if (!isShooterEnemy)
+        {
+            m_rigidbody.velocity = new Vector3(currentSpeed, m_rigidbody.velocity.y, 0);
+            CountDown();
+        }
         UpdateShooting();
     }
 
@@ -76,13 +83,15 @@ public class Enemy : MonoBehaviour
     {
         enableShooting = true;
         currenShootCD = shootCD;
+        currenShootTimer = shootTimer;
     }
 
     private void UpdateShooting()
     {
         if (!enableShooting) return;
 
-        shootTimer -= Time.deltaTime;
+        if (!isShooterEnemy) currenShootTimer -= Time.deltaTime;
+
         currenShootCD -= Time.deltaTime;
         if(currenShootCD <= 0)
         {
@@ -100,6 +109,6 @@ public class Enemy : MonoBehaviour
         }
 
         // stop shooting
-        if (shootTimer <= 0) enableShooting = false;
+        if (currenShootTimer <= 0) enableShooting = false;
     }
 }
