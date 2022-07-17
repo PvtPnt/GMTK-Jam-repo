@@ -12,6 +12,7 @@ public class RandomStatus : MonoBehaviour
     [SerializeField] GameObject AdPanel;
     [SerializeField] float AdTime = 10;
     float adCount = 0;
+    [SerializeField] GameObject UI_Ad;
     // Start is called before the first frame update
 
     void Awake()
@@ -31,13 +32,16 @@ public class RandomStatus : MonoBehaviour
         {
             adCount -= Time.deltaTime;
             if (adCount <= 0)
+            {
+                UI_Ad.SetActive(false);
                 AdPanel.gameObject.SetActive(false);
+            }
         }
     }
 
     public void GetRandomStatus()
     {
-        int chance = Random.Range(1, 5);
+        int chance = Random.Range(1, 6);
         switch(chance)
         {
             case 1:
@@ -58,13 +62,14 @@ public class RandomStatus : MonoBehaviour
                 }
             case 4:
                 {
-                    EnemyCenter.Instance.EnableShooting();
+                    player.SetGodMode();
                     break;
                 }
             default:
                 {
                     AdPanel.gameObject.SetActive(true);
                     adCount = AdTime;
+                    UI_Ad.SetActive(true);
                     break;
                 }
         }

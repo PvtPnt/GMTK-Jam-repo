@@ -16,14 +16,20 @@ public class BouncerController : MonoBehaviour
     bool grounded;
     float isSideAttack;
     float isReverseControl;
+    float isGodMode;
     Vector3 startPos;
     [SerializeField] RandomStatus randomStatus;
     [SerializeField] GameObject SideAttackCollider;
     [SerializeField] float invisibleCd = 5;
     [SerializeField] float confusedCd = 5;
+    [SerializeField] float godModeCd = 5;
     [SerializeField] GameObject PauseMenu;
     [SerializeField] Material m_invisible;
+    [SerializeField] Material m_berserk;
     [SerializeField] Material m_confuse;
+    [SerializeField] GameObject UI_invisible;
+    [SerializeField] GameObject UI_berserk;
+    [SerializeField] GameObject UI_confuse;
     private Material m_ori;
 
     // Start is called before the first frame update
@@ -36,6 +42,7 @@ public class BouncerController : MonoBehaviour
         m_ori = GetComponent<Renderer>().material;
         isReverseControl = 0;
         isSideAttack = 0;
+        isGodMode = 0;
     }
 
     // Update is called once per frame
@@ -45,13 +52,28 @@ public class BouncerController : MonoBehaviour
         {
             isReverseControl -= Time.deltaTime;
             if(isReverseControl <= 0)
+            {
                 GetComponent<Renderer>().material = m_ori;
+                UI_confuse.SetActive(false);
+            }
         }
         if (isSideAttack > 0)
         {
             isSideAttack -= Time.deltaTime;
             if (isSideAttack <= 0)
+            {
                 GetComponent<Renderer>().material = m_ori;
+                UI_berserk.SetActive(false);
+            }
+        }
+        if (isGodMode > 0)
+        {
+            isGodMode -= Time.deltaTime;
+            if (isGodMode <= 0)
+            {
+                GetComponent<Renderer>().material = m_ori;
+                UI_invisible.SetActive(false);
+            }
         }
 
         if (Input.GetKey(KeyCode.Escape))
@@ -162,12 +184,12 @@ public class BouncerController : MonoBehaviour
         {
             resolveEnemyCollision(collision);
         }
-        else if (colTag == "Spike")
+        else if (colTag == "Spike" && isGodMode < 0)
         {
             gameObject.transform.position = startPos;
             rgbd.velocity = Vector3.zero;
         }
-        else if(colTag == "Bullet")
+        else if(colTag == "Bullet" && isGodMode < 0)
         {
             Destroy(collision.gameObject);
             gameObject.transform.position = startPos;
@@ -200,7 +222,7 @@ public class BouncerController : MonoBehaviour
                 collision.gameObject.SetActive(false);
                 RandomStatus.SharedInstance.GetRandomStatus();
             }
-            else
+            else if(isGodMode < 0)
             {
                 gameObject.transform.position = startPos;
                 rgbd.velocity = Vector3.zero;
@@ -218,12 +240,21 @@ public class BouncerController : MonoBehaviour
     public void SetSideAttack()
     {
         isSideAttack = invisibleCd;
-        GetComponent<Renderer>().material = m_invisible;
+        GetComponent<Renderer>().material = m_berserk;
+        UI_invisible.SetActive(true);
     }
 
     public void SetReverseControl()
     {
         isReverseControl = confusedCd;
         GetComponent<Renderer>().material = m_confuse;
+        UI_confuse.SetActive(true);
+    }
+
+    public void SetGodMode()
+    {
+        isGodMode = godModeCd;
+        GetComponent<Renderer>().material = m_invisible;
+        UI_invisible.SetActive(true);
     }
 }

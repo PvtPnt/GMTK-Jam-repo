@@ -10,6 +10,7 @@ public class FallingDarts : MonoBehaviour
     [SerializeField] private GameObject darts;
     [SerializeField] private float offsetY = 30;
     [SerializeField] private float fallingForce = 30;
+    [SerializeField] private GameObject icon;
 
     private GameObject player;
     private bool enableFallingDarts;
@@ -31,6 +32,7 @@ public class FallingDarts : MonoBehaviour
         enableFallingDarts = true;
         currentCD = fallingCD;
         currentTimer = fallingTimer;
+        icon.SetActive(true);
     }
 
     private void UpdateFalling()
@@ -53,6 +55,7 @@ public class FallingDarts : MonoBehaviour
             GameObject new_darts = GameObject.Instantiate(darts);
             new_darts.transform.position = startPos;
             new_darts.GetComponent<Rigidbody>().AddForce(force);
+            icon.SetActive(false);
         }
 
         if (currentTimer <= 0) enableFallingDarts = false;
