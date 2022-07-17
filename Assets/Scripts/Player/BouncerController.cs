@@ -97,7 +97,7 @@ public class BouncerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         string colTag = collision.gameObject.tag;
-        if(colTag == "Ground")
+        if (colTag == "Ground")
         {
             //Reset y velocity so that the jump impulse is accurate
             rgbd.velocity = new Vector3(rgbd.velocity.x, 0, rgbd.velocity.z);
@@ -105,16 +105,7 @@ public class BouncerController : MonoBehaviour
         }
         else if (colTag == "Enemy")
         {
-            if (isSideAttack)
-            {
-                collision.gameObject.SetActive(false);
-                RandomStatus.SharedInstance.GetRandomStatus();
-            }
-            else
-            {
-                gameObject.transform.position = startPos;
-                rgbd.velocity = Vector3.zero;
-            }
+            resolveEnemyCollision(collision);
         }
         else if (colTag == "Spike")
         {
@@ -129,6 +120,32 @@ public class BouncerController : MonoBehaviour
         {
             startPos = transform.position;
         }
+    }
+
+    private void resolveEnemyCollision(Collision collision)
+    {
+        Vector3 dist = (transform.position - collision.transform.position).normalized;
+        if(Mathf.Abs(dist.x) > Mathf.Abs(dist.y))
+        {
+            // side collision
+            if (isSideAttack)
+            {
+                collision.gameObject.SetActive(false);
+                RandomStatus.SharedInstance.GetRandomStatus();
+            }
+            else
+            {
+                gameObject.transform.position = startPos;
+                rgbd.velocity = Vector3.zero;
+            }
+        }
+        else if(Mathf.Abs(dist.x) < Mathf.Abs(dist.y))
+        {
+            // top collision
+            collision.gameObject.SetActive(false);
+            RandomStatus.SharedInstance.GetRandomStatus();
+        }
+
     }
 
     public void SetSideAttack(bool b)
