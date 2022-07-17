@@ -238,7 +238,7 @@ Transform:
   m_GameObject: {fileID: 8611369858341051112}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -32.99, y: 7.21, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8611369857300415829}
@@ -342,6 +342,7 @@ MonoBehaviour:
   Indicator: {fileID: 0}
   speedMultiplier: 20
   heightMultiplier: 5
+  fallMultiplier: 2.5
   randomStatus: {fileID: 3442666626805096730}
   SideAttackCollider: {fileID: 417079752681493165}
   PauseMenu: {fileID: 0}
