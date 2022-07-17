@@ -44,6 +44,7 @@ public class BouncerController : MonoBehaviour
     [SerializeField] GameObject UI_berserk;
     [SerializeField] GameObject UI_confuse;
     [SerializeField] GameObject UI_ads;
+    [SerializeField] GameObject UI_TheAds;
     [SerializeField] GameObject UI_darts;
     private Material m_ori;
 
@@ -107,6 +108,7 @@ public class BouncerController : MonoBehaviour
             {
                 GetComponent<Renderer>().material = m_ori;
                 UI_ads.SetActive(false);
+                UI_TheAds.SetActive(false);
             }
         }
 
@@ -329,6 +331,7 @@ public class BouncerController : MonoBehaviour
     {
         isAds = adsCd;
         UI_ads.SetActive(true);
+        UI_TheAds.SetActive(true);
     }
 
     public void SetDarts()
