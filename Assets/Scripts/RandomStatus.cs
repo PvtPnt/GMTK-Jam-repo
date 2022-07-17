@@ -30,8 +30,17 @@ public class RandomStatus : MonoBehaviour
 
     public void GetRandomStatus()
     {
-        currStatus = Statuses[1];
-        
+        if(Random.Range(1, 10) < 6)
+        {
+            currStatus = Statuses[1];
+            player.SetReverseControl();
+        }
+        else
+        {
+            currStatus = Statuses[1];
+            player.SetSideAttack();
+        }
+
         //player.SetSideAttack(true);
     }
 }
