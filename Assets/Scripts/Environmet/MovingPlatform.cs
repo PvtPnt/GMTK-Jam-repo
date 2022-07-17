@@ -33,7 +33,7 @@ public class MovingPlatform : MonoBehaviour
         }
 
         // Moving platform itself
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget, moveSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, currentTarget, moveSpeed * Time.timeScale);
 
         // Reassign target when reachign destination
         if (transform.position == currentTarget)

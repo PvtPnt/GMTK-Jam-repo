@@ -35,9 +35,18 @@ public class BouncerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.Escape) && PauseMenu.activeSelf == false)
+        if(Input.GetKey(KeyCode.Escape))
         {
-            PauseMenu.gameObject.SetActive(true);
+            if (PauseMenu.activeSelf == false)
+            {
+                PauseMenu.gameObject.SetActive(true);
+                Time.timeScale = 0;
+            }
+            else
+            {
+                PauseMenu.gameObject.SetActive(false);
+                Time.timeScale = 1;
+            }
         }
     }
 
