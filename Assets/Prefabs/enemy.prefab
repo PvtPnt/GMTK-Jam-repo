@@ -52,10 +52,11 @@ MonoBehaviour:
   speedMultiplier: 2
   m_rigidbody: {fileID: 1613685861}
   randomTime: 1
+  shootingForce: 40
   bullet: {fileID: 7576727733501679270, guid: ecc1f5cf2a6b342488ada6ac4c15d666, type: 3}
   isShooterEnemy: 0
   shootCD: 2
-  shootTimer: 4
+  shootTimer: 5
 --- !u!54 &1613685861
 Rigidbody:
   m_ObjectHideFlags: 0
