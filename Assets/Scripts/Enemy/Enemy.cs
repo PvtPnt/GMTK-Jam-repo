@@ -115,6 +115,7 @@ public class Enemy : MonoBehaviour
         if (currenShootCD <= 0)
         {
             currenShootCD = shootCD;
+            enemyAnimator.SetTrigger("Shoot");
             // fire projectile
             Vector3 dir = (player.transform.position - transform.position).normalized;
             Vector3 startPos = transform.position + (dir * (transform.localScale.x + bullet.transform.localScale.y));
