@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
 
     // shooting
     [SerializeField] private float shootCD;
+    [Tooltip("set how long will shooting last")]
+    [SerializeField] private float shootTimer;
     private bool enableShooting;
     private float currenShootCD;
 
@@ -70,9 +72,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void EnableShooting(bool b)
+    public void EnableShooting()
     {
-        enableShooting = b;
+        enableShooting = true;
         currenShootCD = shootCD;
     }
 
@@ -80,6 +82,7 @@ public class Enemy : MonoBehaviour
     {
         if (!enableShooting) return;
 
+        shootTimer -= Time.deltaTime;
         currenShootCD -= Time.deltaTime;
         if(currenShootCD <= 0)
         {
@@ -95,5 +98,8 @@ public class Enemy : MonoBehaviour
 
             new_bullet.GetComponent<Rigidbody>().velocity = dir * 40;
         }
+
+        // stop shooting
+        if (shootTimer <= 0) enableShooting = false;
     }
 }
