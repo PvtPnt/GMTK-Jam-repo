@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
 {
+    public bool lastCheckPoint;
     public bool isActivate;
+    public GameObject WinScreen;
     [SerializeField] Material m_activated;
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,11 @@ public class CheckPoint : MonoBehaviour
         {
             isActivate = true;
             gameObject.GetComponent<Renderer>().material = m_activated;
+
+            if(lastCheckPoint)
+            {
+                WinScreen.SetActive(true);
+            }
         }
     }
 }
