@@ -5,12 +5,12 @@ using TMPro;
 
 public class BouncerController : MonoBehaviour
 {
-    public int JumpHeight, MoveSpeed;
+    [SerializeField] int JumpHeight, MoveSpeed;
     public TextMeshProUGUI Indicator;
     Rigidbody rgbd;
-    public int speedMultiplier = 20;
-    public int heightMultiplier = 5;
-    public float fallMultiplier = 2.5f;
+    [SerializeField] int speedMultiplier = 20;
+    [SerializeField] int heightMultiplier = 5;
+    [SerializeField] float fallMultiplier = 2.5f;
     float speedCap;
     bool grounded;
     bool isSideAttack;
@@ -18,6 +18,8 @@ public class BouncerController : MonoBehaviour
     [SerializeField] RandomStatus randomStatus;
     [SerializeField] GameObject SideAttackCollider;
     [SerializeField] GameObject PauseMenu;
+    [SerializeField] Material m_invisible;
+    private Material m_ori;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +29,7 @@ public class BouncerController : MonoBehaviour
         MoveSpeed = 3;
         UpdateDebug();
         startPos = transform.position;
+        m_ori = GetComponent<Renderer>().material;
     }
 
     // Update is called once per frame
@@ -100,7 +103,20 @@ public class BouncerController : MonoBehaviour
             rgbd.velocity = new Vector3(rgbd.velocity.x, 0, rgbd.velocity.z);
             Jump();
         }
-        else if(colTag == "Enemy" || colTag == "Spike")
+        else if (colTag == "Enemy")
+        {
+            if (isSideAttack)
+            {
+                collision.gameObject.SetActive(false);
+                RandomStatus.SharedInstance.GetRandomStatus();
+            }
+            else
+            {
+                gameObject.transform.position = startPos;
+                rgbd.velocity = Vector3.zero;
+            }
+        }
+        else if (colTag == "Spike")
         {
             gameObject.transform.position = startPos;
             rgbd.velocity = Vector3.zero;
@@ -112,6 +128,19 @@ public class BouncerController : MonoBehaviour
         if (other.gameObject.tag == "CheckPoint")
         {
             startPos = transform.position;
+        }
+    }
+
+    public void SetSideAttack(bool b)
+    {
+        isSideAttack = b;
+        if (b)
+        {
+            GetComponent<Renderer>().material = m_invisible;
+        }
+        else
+        {
+            GetComponent<Renderer>().material = m_ori;
         }
     }
 }
